@@ -16,19 +16,37 @@ const createPostsLists = (posts) => {
 const createPost = ({ userId, id, title, body }) => {
     return `<li id=${id}><div id=${userId}><h2>${title}</h2><p>${body}</p></div></li>`;
 };
-const handleWindowLoad = async () => {
+const makeNormalMarkUp = async () => {
     try {
         const posts = await getPosts(API_URL);
-        const updatedPosts = updateObjectInArray(
-            posts,
-            'title',
-            'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
-            'aaaaaaaaaaaaaaaaaaaa'
-        );
+        const markup = createPostsLists(posts);
+        return markup;
+    } catch (error) {
+        alert(error);
+    }
+};
+const makeUpdatedMarkUp = async () => {
+    const posts = await getPosts(API_URL);
+    const updatedPosts = updateObjectInArray(
+        posts,
+        'title',
+        'ddddident occaecati excepturi optio reprehenderit',
+        'aaaaaaaaaaaaaaaaaaaa'
+    );
+    return updatedPosts;
+};
+const handleWindowLoad = async () => {
+    try {
+        const updatedPosts = await makeUpdatedMarkUp();
         const markup = createPostsLists(updatedPosts);
         list?.insertAdjacentHTML('beforeend', markup);
     } catch (error) {
-        alert(error);
+        alert(error + 'Thats why we have rendered a normal list');
+        makeNormalMarkUp().then((m) => {
+            if (m) {
+                list?.insertAdjacentHTML('beforeend', m);
+            }
+        });
     }
 };
 window.addEventListener('load', handleWindowLoad);

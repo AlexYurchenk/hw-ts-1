@@ -3,19 +3,19 @@ export default function updateObjectInArray<ObjectShape>(
     key: string,
     value: unknown,
     patch: any
-) {
+): ObjectShape[] | never {
     type T = keyof ObjectShape;
     const newInitialArray = [...initialArray];
     const searchedElement = newInitialArray.find((e) => e[key as T] === value);
+    if (!searchedElement) {
+        throw new Error(
+            `There is no obj with key ${key} and its value ${value}`
+        );
+    }
     const index = searchedElement && newInitialArray.indexOf(searchedElement);
 
-    if (
-        searchedElement !== undefined &&
-        index !== undefined &&
-        searchedElement !== null
-    ) {
-        searchedElement[key as T] = patch;
-        newInitialArray[index] = searchedElement;
-    }
+    searchedElement[key as T] = patch;
+    newInitialArray[index] = searchedElement;
+
     return newInitialArray;
 }
