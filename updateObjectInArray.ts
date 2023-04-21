@@ -13,9 +13,7 @@ export default function updateObjectInArray<ObjectShape>(
         );
     }
     const index = searchedElement && newInitialArray.indexOf(searchedElement);
-
-    searchedElement[key as T] = patch;
-    newInitialArray[index] = searchedElement;
-
+    const updatedElement = { ...searchedElement, [key as T]: patch };
+    newInitialArray[index] = updatedElement;
     return newInitialArray;
 }

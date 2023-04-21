@@ -5,7 +5,7 @@ export default function updateObjectInArray(initialArray, key, value, patch) {
         throw new Error(`There is no obj with key ${key} and its value ${value}`);
     }
     const index = searchedElement && newInitialArray.indexOf(searchedElement);
-    searchedElement[key] = patch;
-    newInitialArray[index] = searchedElement;
+    const updatedElement = { ...searchedElement, [key]: patch };
+    newInitialArray[index] = updatedElement;
     return newInitialArray;
 }
